@@ -19,7 +19,7 @@ class Escuela(models.Model):
 class Maestro(models.Model):
     nombre = models.CharField(max_length=100)
     escuela = models.ForeignKey(Escuela, on_delete=models.PROTECT, null=False)
-    sexo = models.IntegerField(choices=SEXO, default=NEUTRO, null=False)
+    sexo = models.IntegerField(choices=SEXO, default=HOMBRE, null=False)
     fecha_nacimiento = models.DateField(null=False)
 
 class Alumno(models.Model):
