@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Row, Column
@@ -29,9 +30,18 @@ class MaestroForm(ModelForm):
                 Column(Field('escuela'), css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
-            Submit('submit', 'Guardar')
+            Submit('submit', '{{ texto_submit }}')
         )
 
     class Meta:
         model = Maestro
         fields = ["nombre", "escuela", "sexo", "fecha_nacimiento"]
+        labels = {
+            'nombre': 'Nombre del Maestro', 
+            'escuela': 'Escuela a la que pertenece',
+            'sexo': 'Sexo del Maestro',
+            'fecha_nacimiento': 'Fecha de Nacimiento del Maestro'
+        }
+        widgets = {
+            'fecha_nacimiento': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }

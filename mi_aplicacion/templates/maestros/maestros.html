@@ -19,8 +19,8 @@
     {% for maestro in maestros %}
     <tr>
       <td>
-        <a href="{% url 'escuelas_eliminar' maestro.id %}"><img src="{%static 'images/icons8-trash-can-32.png' %}"></a>
-        <a href="{% url 'escuelas_editar' maestro.id %}"><img src="{%static 'images/icons8-edit-pencil-32.png' %}"></a>
+        <a href="{% url 'maestros_eliminar' maestro.id %}"><img src="{%static 'images/icons8-trash-can-32.png' %}"></a>
+        <a href="{% url 'maestros_editar' maestro.id %}"><img src="{%static 'images/icons8-edit-pencil-32.png' %}"></a>
       </td>
       <td>{{ maestro.nombre }}</td>
       <td>{{ maestro.escuela.siglas }}</td>

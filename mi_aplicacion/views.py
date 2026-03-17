@@ -93,6 +93,78 @@ class MaestroAlta(View):
         cdx={
         "titulo":"Maestros",
         "subtitulo":"Alta de Maestro",
-        "form":form
+        "form":form,
+        "fondo_formulario":"bg-success p-3",
+        "texto_submit":"Guardar",
+        }
+        return render(request, 'maestros/CRUD.html', cdx)
+    
+    def post(self, request):
+        form = MaestroForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('maestros')
+        cdx={
+        "titulo":"Maestros",
+        "subtitulo":"Alta de Maestro",
+        "form":form,
+        "fondo_formulario":"bg-success p-3",
+        "texto_submit":"Guardar",
+        }
+        return render(request, 'maestros/CRUD.html', cdx)
+    
+class MaestroEditar(View):
+    def get(self, request, id):
+        maestro = Maestro.objects.filter(id=id).first()
+        form = MaestroForm(instance=maestro)
+        cdx={
+        "titulo":"Maestros",
+        "subtitulo":"Edición de Maestro",
+        "form":form,
+        "fondo_formulario":"bg-warning p-3",
+        "texto_submit":"Actualizar",
+        }
+        return render(request, 'maestros/CRUD.html', cdx)
+    
+    def post(self, request, id):
+        maestro = Maestro.objects.filter(id=id).first()
+        form = MaestroForm(request.POST, request.FILES, instance=maestro)
+        if form.is_valid():
+            form.save()
+            return redirect('maestros')
+        cdx={
+        "titulo":"Maestros",
+        "subtitulo":"Edición de Maestro",
+        "form":form,
+        "fondo_formulario":"bg-warning p-3",
+        "texto_submit":"Actualizar",
+        }
+        return render(request, 'maestros/CRUD.html', cdx)
+    
+class MaestroEliminar(View):
+    def get(self, request, id):
+        maestro = Maestro.objects.filter(id=id).first()
+        form = MaestroForm(instance=maestro)
+        cdx={
+        "titulo":"Maestros",
+        "subtitulo":"Eliminación de Maestro",
+        "form":form,
+        "fondo_formulario":"bg-danger p-3",
+        "texto_submit":"Eliminar",
+        }
+        return render(request, 'maestros/CRUD.html', cdx)
+    
+    def post(self, request, id):
+        maestro = Maestro.objects.filter(id=id).first()
+        form = MaestroForm(request.POST, request.FILES, instance=maestro)
+        if form.is_valid():
+            maestro.delete()
+            return redirect('maestros')
+        cdx={
+        "titulo":"Maestros",
+        "subtitulo":"Eliminación de Maestro",
+        "form":form,
+        "fondo_formulario":"bg-danger p-3",
+        "texto_submit":"Eliminar",
         }
         return render(request, 'maestros/CRUD.html', cdx)
