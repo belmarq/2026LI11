@@ -41,27 +41,17 @@ class GroupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         permissions = validated_data.pop("permissions", [])
         group = Group.objects.create(**validated_data)
-
-
         if permissions:
             group.permissions.set(permissions)
-
-
         return group
 
 
     def update(self, instance, validated_data):
         permissions = validated_data.pop("permissions", None)
-
-
         instance.name = validated_data.get("name", instance.name)
         instance.save()
-
-
         if permissions is not None:
             instance.permissions.set(permissions)
-
-
         return instance
 
 
