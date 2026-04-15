@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib import messages
 from mi_aplicacion.models import Escuela, Maestro
 from mi_aplicacion.forms import EscuelaForm, MaestroForm
 
@@ -79,6 +80,9 @@ class EscuelaEliminar(View):
 
 class Maestros(View):
     def get(self, request):
+        if not request.user.has_perm('mi_aplicacion.view_maestro'):
+            messages.error(request, "No tienes permiso para ver la página de maestros.")
+            return redirect("home")
         maestros = Maestro.objects.all()
         cdx={
         "titulo":"Maestros",
@@ -89,6 +93,9 @@ class Maestros(View):
 
 class MaestroAlta(View):
     def get(self, request):
+        if not request.user.has_perm('mi_aplicacion.add_maestro'):
+            messages.error(request, "No tienes permiso para agregar maestros.")
+            return redirect("home")
         form = MaestroForm()
         cdx={
         "titulo":"Maestros",
