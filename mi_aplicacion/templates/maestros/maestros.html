@@ -7,6 +7,22 @@
 {% endif %}
 {% endblock %}
 
+{% block filtros %}
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="nombre" placeholder="Nombre" value="{{ request.GET.nombre }}">
+  <select name="escuela">
+    <option value="0">Todas las escuelas</option>
+    {% for escuela in escuelas %}
+    <option value="{{ escuela.id }}" 
+    {% if request.GET.escuela == escuela.id|stringformat:"s" %}selected{% endif %}
+    >{{ escuela.siglas }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Filtrar</button>
+</form>
+{% endblock %}
+
 {% block contenido %}
   <table class="w3-table-all w3-hoverable">
     <thead>
@@ -30,7 +46,9 @@
       </td>
       <td>{{ maestro.nombre }}</td>
       <td>{{ maestro.escuela.siglas }}</td>
-      <td>{{ maestro.sexo }}</td>
+      <td>
+        {% if maestro.sexo == 2 %}Hombre{% elif maestro.sexo == 1 %}Mujer{% else %}Prefiero no decirlo{% endif %}
+      </td>
       <td>{{ maestro.fecha_nacimiento }}</td>
     </tr>
     {% endfor %}

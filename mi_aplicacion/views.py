@@ -87,7 +87,32 @@ class Maestros(View):
         cdx={
         "titulo":"Maestros",
         "subtitulo":"Lista de maestros",
-        "maestros":maestros
+        "maestros":maestros,
+        "escuelas":Escuela.objects.all()
+        }
+        return render(request, "maestros/maestros.html", cdx)
+    
+    def post(self, request):
+        if not request.user.has_perm('mi_aplicacion.view_maestro'):
+            messages.error(request, "No tienes permiso para ver la página de maestros.")
+            return redirect("home")
+        # print(f"Datos recibidos: {request.POST}")
+        nombre = request.POST.get("nombre", "")
+        escuela_id = request.POST.get("escuela", "0")
+        escuela_id = int(escuela_id)
+        maestros = Maestro.objects.all()
+        # print(f"Maestros antes de filtrar: {maestros}")
+        if nombre:
+            maestros = maestros.filter(nombre__icontains=nombre)
+        # print(f"Maestros después de filtrar por nombre: {maestros}")
+        if escuela_id != 0:
+            maestros = maestros.filter(escuela_id=escuela_id)
+        # print(f"Maestros después de filtrar por escuela: {maestros}")
+        cdx={
+        "titulo":"Maestros",
+        "subtitulo":"Lista de maestros",
+        "maestros":maestros,
+        "escuelas":Escuela.objects.all()
         }
         return render(request, "maestros/maestros.html", cdx)
 
