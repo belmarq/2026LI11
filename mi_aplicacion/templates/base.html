@@ -37,7 +37,17 @@
     {% endif %}
   </div>
   <div class="w3-third w3-container">
+    {% if user.is_authenticated %}
     {{ user.username }}
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-link">
+        <img src="/static/images/icons8-logout-32.png" alt="Logout"></button>
+    </form>
+
+    {% else %}
+    <a href="{% url 'login' %}"><img src="/static/images/icons8-login-32.png" alt="Login"></a>
+    {% endif %}
   </div>
 </div>
 
