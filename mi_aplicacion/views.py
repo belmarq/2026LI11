@@ -3,6 +3,7 @@ from django.views import View
 from django.contrib import messages
 from mi_aplicacion.models import Escuela, Maestro
 from mi_aplicacion.forms import EscuelaForm, MaestroForm
+from django.contrib.auth.models import User
 
 class Home(View):
     def get(self, request):
@@ -11,6 +12,16 @@ class Home(View):
         "subtitulo":"Bienvenido a mi primer aplicación"
         }
         return render(request, "home/home.html", cdx)
+
+class Usuarios(View):
+    def get(self, request):
+        usuarios = User.objects.all()
+        cdx={
+            "titulo":"Usuarios",
+            "subtitulo":"Listado de usuarios",
+            "usuarios": usuarios}
+        return render(request, "usuarios/usuarios.html", cdx)
+ 
 
 class Escuelas(View):
     def get(self, request):
